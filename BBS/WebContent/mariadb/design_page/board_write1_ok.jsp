@@ -16,6 +16,7 @@
 	String subject = request.getParameter("subject");
 	String password = request.getParameter("password");
 	String content = request.getParameter("content");
+	String emot = request.getParameter("emot").substring(4,6);
 	String mail = "";
 	if (!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")) {
 		mail = request.getParameter("mail1") + "@" + request.getParameter("mail2");
@@ -42,7 +43,7 @@
 		pstmt.executeUpdate();
 		pstmt.close();
 		
-		sql = "insert into board1 values (0, ?, ?, ?, ?, ?, 0, ?, now())";
+		sql = "insert into board1 values (0, ?, ?, ?, ?, ?, 0, ?, now(), ?)";
 		pstmt = conn.prepareStatement(sql);
 		
 		pstmt.setString(1, subject);
@@ -51,6 +52,7 @@
 		pstmt.setString(4, password);
 		pstmt.setString(5, content);
 		pstmt.setString(6, wip);
+		pstmt.setString(7, emot);
 		
 		int result = pstmt.executeUpdate();
 		if (result == 1) {
@@ -66,7 +68,7 @@
 	}
 	out.println("<script type='text/javascript'>");
 	if (flag == 0) {
-		out.println("alert('글쓰기에 성공했습니다.');");
+		out.println("alert('글이 작성되었습니다.');");
 		out.println("location.href='./board_list1.jsp';");
 	} else {
 		out.println("alert('글쓰기에 실패했습니다.');");

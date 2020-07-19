@@ -19,6 +19,7 @@
 	String subject = "";
 	String writer = "";
 	String content = "";
+	String emot = "";
 	String[] mail = null;
 	
 	Connection conn = null;
@@ -32,7 +33,7 @@
 		
 		conn = dataSource.getConnection();
 				
-		String sql = "select subject, writer, mail, content from board1 where seq="+ seq;
+		String sql = "select subject, writer, mail, content, emot from board1 where seq="+ seq;
 		pstmt = conn.prepareStatement(sql);
 		
 		rs = pstmt.executeQuery();
@@ -40,12 +41,13 @@
 		if (rs.next()) {
 			subject = rs.getString("subject");
 			writer = rs.getString("writer");
-			content = rs.getString("content").replaceAll("\n", "<br>");
 			if (rs.getString("mail").equals("")) {
 				mail = new String[] {"", ""};
 			} else {
 				mail = rs.getString("mail").split("@");
 			}
+			content = rs.getString("content").replaceAll("\n", "<br>");
+			emot = rs.getString("emot");
 		}
 	} catch (NamingException e) {
 		System.out.println("[에러] : " + e.getMessage());
@@ -114,6 +116,44 @@ window.onload = function() {
 					<tr>
 						<th>이메일</th>
 						<td colspan="3"><input type="text" name="mail1" value="<%=mail[0] %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%=mail[1] %>" class="board_view_input_mail" /></td>
+					</tr>
+					<tr>
+						<th>이모티콘</th>
+						<td colspan="3" align="center">			
+						<table>
+						<% String strHtml = ""; %>
+<%
+							strHtml += "<tr>";
+							for (int i = 1; i < 46; i++) {
+						    	strHtml += "<td>";
+						   		strHtml += "<img src='../../images/emoticon/emot";
+						    	if (i < 10) {
+						       		strHtml += "0";
+						    	}
+							    strHtml += i;
+							    strHtml += ".png' width='25' /><br>";
+							    strHtml += "<input type='radio' name='emot' value='emot";
+							    if (i < 10) {
+							       strHtml += "0";
+							    }
+							    strHtml += i;
+							    strHtml += "' class='input_radio' ";
+							    if (Integer.parseInt(rs.getString("emot")) == i) {
+							       strHtml += "checked='checked'";
+							    }
+							    strHtml += "/>";
+							    strHtml += "</td>";
+							    if (i % 15 == 0 && i < 45) {
+							       strHtml += "</tr>";
+							       strHtml += "<tr>";
+							    }
+							 }
+							 strHtml += "</tr>";
+							 
+%>
+						<%=strHtml %>
+						</table>
+						</td>
 					</tr>
 				</table>
 			</div>

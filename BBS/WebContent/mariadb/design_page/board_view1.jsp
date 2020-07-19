@@ -19,10 +19,11 @@
 	String subject = "";
 	String writer = "";
 	String mail = "";
-	String content = "";
 	String wip = "";
 	String wdate = "";
 	String hit = "";
+	String content = "";
+	String emot = "";
 
 	Connection conn = null;
 	PreparedStatement pstmt = null;
@@ -40,7 +41,7 @@
 		pstmt.executeUpdate();
 		pstmt.close();
 				
-		sql = "select subject, writer, mail, wip, wdate, hit, content from board1 where seq=" + seq;
+		sql = "select subject, writer, mail, wip, wdate, hit, content, emot from board1 where seq="+ seq;
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery(sql);
 		
@@ -52,6 +53,7 @@
 			wdate = rs.getString("wdate");
 			hit = rs.getString("hit");
 			content = rs.getString("content").replaceAll("\n", "<br>");
+			emot = rs.getString("emot");		
 		}
 	} catch (NamingException e) {
 		System.out.println("[에러] : " + e.getMessage());
@@ -74,7 +76,6 @@
 </head>
 
 <body>
-<!-- 상단 디자인 -->
 <div class="con_title">
 	<h3>게시판</h3>
 	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
@@ -84,21 +85,21 @@
 		<!--게시판-->
 		<div class="board_view">
 			<table>
-			<tr>
-				<th width="10%">제목</th>
-				<td width="60%"><%=subject %></td>
-				<th width="10%">등록일</th>
-				<td width="20%"><%=wdate %></td>
-			</tr>
-			<tr>
-				<th>글쓴이</th>
-				<td><%=writer %>(<%=mail %>)(<%=wip %>)</td>
-				<th>조회</th>
-				<td><%=hit %></td>
-			</tr>
-			<tr>
-				<td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%=content %></td>
-			</tr>
+				<tr>
+					<th width="10%">제목</th>
+					<td width="60%">(<img src="../../images/emoticon/emot<%=emot %>.png" width="15"/>)&nbsp;<%=subject %></td>
+					<th width="10%">등록일</th>
+					<td width="20%"><%=wdate %></td>
+				</tr>
+				<tr>
+					<th>글쓴이</th>
+					<td><%=writer %>(<%=mail %>)(<%=wip %>)</td>
+					<th>조회</th>
+					<td><%=hit %></td>
+				</tr>
+				<tr>
+					<td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%=content %></td>
+				</tr>
 			</table>
 		</div>
 
@@ -115,7 +116,6 @@
 		<!--//게시판-->
 	</div>
 </div>
-<!-- 하단 디자인 -->
 
 </body>
 </html>

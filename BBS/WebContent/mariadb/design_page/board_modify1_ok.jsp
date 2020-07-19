@@ -17,6 +17,7 @@
 	String subject = request.getParameter("subject");
 	String password = request.getParameter("password");
 	String content = request.getParameter("content");
+	String emot = request.getParameter("emot").substring(4,6);
 	String mail = "";
 	if (!request.getParameter("mail1").equals("") && !request.getParameter("mail2").equals("")) {
 		mail = request.getParameter("mail1") + "@" + request.getParameter("mail2");
@@ -35,13 +36,14 @@
 		
 		conn = dataSource.getConnection();
 		
-		String sql = "update board1 set subject=?, mail=?, content=? where seq=? and password=?";
+		String sql = "update board1 set subject=?, mail=?, content=?, emot=? where seq=? and password=?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, subject);
 		pstmt.setString(2, mail);
 		pstmt.setString(3, content);
-		pstmt.setString(4, seq);
-		pstmt.setString(5, password);
+		pstmt.setString(4, emot);
+		pstmt.setString(5, seq);
+		pstmt.setString(6, password);
 		
 		int result = pstmt.executeUpdate();
 		if (result == 0) {
@@ -61,7 +63,7 @@
 	}
 	out.println("<script type='text/javascript'>");
 	if (flag == 0) {
-		out.println("alert('글수정을 성공했습니다.');");
+		out.println("alert('글이 수정되었습니다.');");
 		out.println("location.href='./board_view1.jsp?cpage="+cpage+"&seq="+seq+"';");
 	} else if (flag == 1) {
 		out.println("alert('비밀번호가 잘못되었습니다.');");
