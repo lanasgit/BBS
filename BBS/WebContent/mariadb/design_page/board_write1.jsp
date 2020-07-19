@@ -44,7 +44,7 @@
 	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<form action="./board_write1_ok.jsp" method="post" name="wfrm">
+	<form action="./board_write1_ok.jsp" method="post" name="wfrm" enctype="multipart/form-data">
 		<div class="contents_sub">	
 			<div class="board_write">
 				<table>
@@ -67,6 +67,12 @@
 					<tr>
 						<th>이메일</th>
 						<td colspan="3"><input type="text" name="mail1" value="" class="board_view_input_mail" /> @ <input type="text" name="mail2" value="" class="board_view_input_mail" /></td>
+					</tr>
+					<tr>
+					<th>첨부파일</th>
+					<td colspan="3">
+						<input type="file" name="upload" value="" class="board_view_input" />
+					</td>
 					</tr>
 					<tr>
 						<th>이모티콘</th>

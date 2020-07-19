@@ -8,7 +8,10 @@
 
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
+
+<%@ page import="java.io.File" %>
 <%
 	request.setCharacterEncoding("utf-8");
 
@@ -17,6 +20,7 @@
 	
 	Connection conn = null;
 	PreparedStatement pstmt = null;
+	ResultSet rs = null;
 	
 	//성공, 실패 표현
 	int flag = 2;
@@ -28,7 +32,17 @@
 		
 		conn = dataSource.getConnection();
 		
-		String sql = "delete from board1 where seq=? and password=?";
+		String sql = "select filename from board1 where seq=?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, seq);
+		
+		rs = pstmt.executeQuery();
+		String filename = null;
+		if (rs.next()) {
+			filename = rs.getString("filename");
+		}
+		
+		sql = "delete from board1 where seq=? and password=?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, seq);
 		pstmt.setString(2, password);
@@ -40,6 +54,10 @@
 		} else if (result == 1) {
 			//정상
 			flag = 0;			
+			if (filename != null) {
+				File file = new File("C:/Users/KIM/git/repository/BBS/WebContent/upload/" + filename);
+				file.delete();
+			}
 		}
 	} catch (NamingException e) {
 		System.out.println("[에러] : " + e.getMessage());

@@ -21,6 +21,8 @@
 	String content = "";
 	String emot = "";
 	String[] mail = null;
+	String filename = "";
+	long filesize = 0;
 	
 	Connection conn = null;
 	PreparedStatement pstmt = null;
@@ -33,7 +35,7 @@
 		
 		conn = dataSource.getConnection();
 				
-		String sql = "select subject, writer, mail, content, emot from board1 where seq="+ seq;
+		String sql = "select subject, writer, mail, content, emot, filename, filesize from board1 where seq="+ seq;
 		pstmt = conn.prepareStatement(sql);
 		
 		rs = pstmt.executeQuery();
@@ -48,6 +50,8 @@
 			}
 			content = rs.getString("content").replaceAll("\n", "<br>");
 			emot = rs.getString("emot");
+			filename = rs.getString("filename") == null ? "파일없음" : rs.getString("filename");
+			filesize = rs.getLong("filesize");
 		}
 	} catch (NamingException e) {
 		System.out.println("[에러] : " + e.getMessage());
@@ -91,7 +95,7 @@ window.onload = function() {
 	<p>HOME &gt; 게시판 &gt; <strong>게시판</strong></p>
 </div>
 <div class="con_txt">
-	<form action="./board_modify1_ok.jsp" method="post" name="mfrm">
+	<form action="./board_modify1_ok.jsp" method="post" name="mfrm" enctype="multipart/form-data">
 		<input type="hidden" name="seq" value="<%=seq %>" />
 		<input type="hidden" name="cpage" value="<%=cpage %>" />
 		<div class="contents_sub">	
@@ -116,6 +120,13 @@ window.onload = function() {
 					<tr>
 						<th>이메일</th>
 						<td colspan="3"><input type="text" name="mail1" value="<%=mail[0] %>" class="board_view_input_mail"/> @ <input type="text" name="mail2" value="<%=mail[1] %>" class="board_view_input_mail" /></td>
+					</tr>
+					<tr>
+						<th>첨부파일</th>
+						<td colspan="3">
+							기존 파일명 : <%=filename %>(<%=filesize %>KB)<br><br>
+							<input type="file" name="upload" value="" class="board_view_input" />
+						</td>
 					</tr>
 					<tr>
 						<th>이모티콘</th>

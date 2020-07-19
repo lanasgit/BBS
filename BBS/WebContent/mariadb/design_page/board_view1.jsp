@@ -24,6 +24,7 @@
 	String hit = "";
 	String content = "";
 	String emot = "";
+	String file = "";
 
 	Connection conn = null;
 	PreparedStatement pstmt = null;
@@ -41,7 +42,7 @@
 		pstmt.executeUpdate();
 		pstmt.close();
 				
-		sql = "select subject, writer, mail, wip, wdate, hit, content, emot from board1 where seq="+ seq;
+		sql = "select subject, writer, mail, wip, wdate, hit, content, emot, filename, format(filesize,0) filesize from board1 where seq="+ seq;
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery(sql);
 		
@@ -53,7 +54,10 @@
 			wdate = rs.getString("wdate");
 			hit = rs.getString("hit");
 			content = rs.getString("content").replaceAll("\n", "<br>");
-			emot = rs.getString("emot");		
+			emot = rs.getString("emot");
+			if (!rs.getString("filesize").equals("0")) {
+				file = "<a href='./download.jsp?filename=" + rs.getString("filename") + "'>" + rs.getString("filename") + "</a>(" + rs.getString("filesize") + "byte" + ")";
+			}
 		}
 	} catch (NamingException e) {
 		System.out.println("[에러] : " + e.getMessage());
@@ -96,6 +100,12 @@
 					<td><%=writer %>(<%=mail %>)(<%=wip %>)</td>
 					<th>조회</th>
 					<td><%=hit %></td>
+				</tr>
+				<tr>
+					<th>첨부 파일</th>
+					<td><%=file %></td>
+					<th></th>
+					<td></td>
 				</tr>
 				<tr>
 					<td colspan="4" height="200" valign="top" style="padding: 20px; line-height: 160%"><%=content %></td>

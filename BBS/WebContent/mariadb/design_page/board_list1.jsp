@@ -10,6 +10,10 @@
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
+
+<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
+<%@ page import="com.oreilly.servlet.MultipartRequest" %>
+<%@ page import="java.io.File" %>
 <%
 	request.setCharacterEncoding("utf-8");
 	
@@ -44,7 +48,7 @@
 		
 		conn = dataSource.getConnection();
 		
-		String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap from board1 order by seq desc";
+		String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap, filename from board1 order by seq desc";
 		pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
 		rs = pstmt.executeQuery();
@@ -65,6 +69,7 @@
 			String wdate = rs.getString("wdate");
 			String hit = rs.getString("hit");
 			int wgap = rs.getInt("wgap");
+			String filename = rs.getString("filename");
 			
 			strHtml.append("<tr>");
 			strHtml.append("<td>&nbsp;</td>");
@@ -76,7 +81,9 @@
 			strHtml.append("<td>" + writer + "</td>");
 			strHtml.append("<td>" + wdate + "</td>");
 			strHtml.append("<td>" + hit + "</td>");
-			strHtml.append("<td>&nbsp;</td>");
+			strHtml.append("<td>");
+			if (filename != null) strHtml.append("<img src='../../images/icon_file.gif' />");
+			strHtml.append("</td>");
 			strHtml.append("</tr>");
 		}
 	} catch (NamingException e) {
