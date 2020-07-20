@@ -142,11 +142,11 @@
 	if (endBlock >= totalPage) {
 		endBlock = totalPage;
 	}
-	// << 버튼 (첫 페이지로 이동)
-	if (cpage == 1) {
+	// << 버튼 (이전 페이지 블록으로 이동)
+	if (startBlock == 1) {
 		out.println("<span><a>&lt;&lt;</a></span>");
 	} else {
-		out.println("<span><a href='board_list1.jsp?cpage="+ (1) +"'>&lt;&lt;</a></span>");
+		out.println("<span><a href='board_list1.jsp?cpage="+ (startBlock - blockPerPage) +"'>&lt;&lt;</a></span>");
 	}
 	// < 버튼 (한 페이지 앞으로 이동)
 	if (cpage == 1) {
@@ -173,11 +173,11 @@
 	} else {
 		out.println("<span><a href='board_list1.jsp?cpage="+ (cpage + 1) +"'>&gt;</a></span>");
 	}
-	// >> 버튼 (마지막 페이지로 이동)
-	if (cpage == totalPage) {
+	// >> 버튼 (다음 페이지 블록으로 이동)
+	if (endBlock == totalPage) {
 		out.println("<span><a>&gt;&gt;</a></span>");
 	} else {
-		out.println("<span><a href='board_list1.jsp?cpage="+ (totalPage) +"'>&gt;&gt;</a></span>");
+		out.println("<span><a href='board_list1.jsp?cpage="+ (startBlock + blockPerPage) +"'>&gt;&gt;</a></span>");
 	}
 %>
 		</div>
