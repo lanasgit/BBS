@@ -104,6 +104,39 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>JSP 게시판</title>
 <link rel="stylesheet" type="text/css" href="../../css/board_list.css">
+<%
+	if (session.getAttribute("s_id") == null || session.getAttribute("s_grade") == null) {
+		//로그인 안한 상태
+%>
+<script type="text/javascript">
+window.onload = function() {
+	document.getElementById('lbtn').onclick = function() {
+		if (document.lfrm.writer.value.trim() == '') {
+			alert('아이디를 입력해주세요.');
+			return false;
+		}
+		if (document.lfrm.password.value.trim() == '') {
+			alert('비밀번호를 입력해주세요.');
+			return false;
+		}
+		document.lfrm.submit();
+	};
+};
+</script>
+<%	
+	} else {
+		//로그인 상태
+%>
+<script type="text/javascript">
+	window.onload = function() {
+		document.getElementById('lbtn').onclick = function() {
+			document.lfrm.submit();			
+		};
+	};
+</script>
+<%	
+	} 
+%>
 </head>
 
 <body>
@@ -115,6 +148,30 @@
 	<div class="contents_sub">
 		<div class="board_top">
 			<div class="bold">총 <span class="txt_orange"><%=totalRecord %></span>건</div>
+			<div align="right">
+<%
+	if (session.getAttribute("s_id") == null || session.getAttribute("s_grade") == null) {
+		//로그인 안한 상태
+%>
+				<form action="login_ok.jsp" method="post" name="lfrm">
+					아이디 <input type="text" name="writer" value="" class="board_view_input_mail" maxlength="10" />
+					비밀번호 <input type="password" name="password" value="" class="board_view_input_mail"/>
+					<input type="button" id="lbtn" value="로그인" class="btn_write btn_txt01" style="cursor: pointer;" />
+				</form>
+<%	
+	} else {
+		//로그인 상태
+%>
+				<form action="logout_ok.jsp" method="post" name="lfrm">
+					<b>아이디</b> : <%=(String)session.getAttribute("s_id") %>
+					/
+					<b>등급</b> : <%=(String)session.getAttribute("s_grade") %>
+					<input type="button" id="lbtn" value="로그아웃" class="btn_write btn_txt01" style="cursor: pointer;" />
+				</form>
+<%	
+	}
+%>
+			</div>		
 		</div>
 
 		<div class="board">
@@ -182,10 +239,20 @@
 %>
 		</div>
 		<!--//페이지넘버-->
-		
+<%
+	if (session.getAttribute("s_id") == null || session.getAttribute("s_grade") == null) {
+		//로그인 안한 상태
+%>
+<%	
+	} else {
+		//로그인 상태
+%>	
 		<div class="align_right">
 			<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp?cpage=<%=cpage %>'" />
 		</div>
+<%
+	}
+%>		
 	</div>
 </div>
 

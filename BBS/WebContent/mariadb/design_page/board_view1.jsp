@@ -117,11 +117,22 @@
 			<div class="align_left">
 				<input type="button" value="목록" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_list1.jsp?cpage=<%=cpage %>'" />
 			</div>
+<%
+	if (session.getAttribute("s_id") == null || session.getAttribute("s_grade") == null) {
+		//로그인 안한 상태
+%>	
+<%	
+	} else {
+		//로그인 상태
+%>	
 			<div class="align_right">
 				<input type="button" value="수정" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_modify1.jsp?cpage=<%=cpage %>&seq=<%=seq %>'" />
 				<input type="button" value="삭제" class="btn_list btn_txt02" style="cursor: pointer;" onclick="location.href='board_delete1.jsp?cpage=<%=cpage %>&seq=<%=seq %>'" />
 				<input type="button" value="쓰기" class="btn_write btn_txt01" style="cursor: pointer;" onclick="location.href='board_write1.jsp?cpage=<%=cpage %>'" />
 			</div>
+<%
+	}
+%>
 		</div>	
 		<!--//게시판-->
 	</div>

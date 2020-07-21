@@ -48,10 +48,24 @@
 		<div class="contents_sub">	
 			<div class="board_write">
 				<table>
+<%
+	if (session.getAttribute("s_id") == null || session.getAttribute("s_grade") == null) {
+	//로그인 안한 상태
+%>
 					<tr>
 						<th class="top">글쓴이</th>
 						<td class="top" colspan="3"><input type="text" name="writer" value="" class="board_view_input_mail" maxlength="5" /></td>
 					</tr>
+<%
+	} else {
+%>		
+					<tr>
+						<th class="top">글쓴이</th>
+						<td class="top" colspan="3"><input type="text" name="writer" value="<%=(String)session.getAttribute("s_id") %>" class="board_view_input_mail" maxlength="5" /></td>
+					</tr>
+<%
+	}
+%>	
 					<tr>
 						<th>제목</th>
 						<td colspan="3"><input type="text" name="subject" value="" class="board_view_input" /></td>

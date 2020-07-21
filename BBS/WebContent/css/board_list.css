@@ -40,7 +40,14 @@ a:active {color:#0b96d4; text-decoration:none;}
 .board td.left {text-align:left;}
 .board td.category {font-weight:bold;}   
     
+.board_view_area, .board_view_input, .board_view_input_mail, .board_view_input_number {border:1px solid #d1d1d1;}
 .board_input {border:1px solid #cecece; height:24px; width:160px;}
+.board_view_input {height:20px; width:500px;}
+.board_view_input_mail {height:20px; width:100px;}
+.board_view_input_number {height:20px; width:30px;}
+.board_view td.tip {color:#7ab5df;}
+.coment_input {border:1px solid #c5c5c5; background-color:#f3fbff; height:20px; width:80px;}
+.coment_input_text {border:1px solid #c5c5c5; background-color:#f3fbff; height:60px;}
 
 /* Paging */
 .paginate_regular {padding:10px 0;text-align:center;line-height:normal;}  
