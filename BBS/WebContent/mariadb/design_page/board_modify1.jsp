@@ -11,6 +11,13 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
 <%
+//주소창에 주소를 직접 입력하면 로그인하지 않아도 들어가짐. 그 방지 차원으로 시작 부분에서 세션 검사 실행.
+if(session.getAttribute("s_id") == null)   {     
+	out.println("<script type='text/javascript'>");
+	out.println("alert('로그인 해야합니다.');");
+	out.println("location.href='./board_list1.jsp';");
+	out.println("</script>");
+} else {
 	request.setCharacterEncoding("utf-8");
 	
 	String seq = request.getParameter("seq");
@@ -183,3 +190,6 @@ window.onload = function() {
 
 </body>
 </html>
+<%
+   }
+%>

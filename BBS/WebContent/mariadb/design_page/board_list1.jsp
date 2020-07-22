@@ -130,7 +130,7 @@ window.onload = function() {
 <script type="text/javascript">
 	window.onload = function() {
 		document.getElementById('lbtn').onclick = function() {
-			document.lfrm.submit();			
+			location.href='./logout_ok.jsp';			
 		};
 	};
 </script>
@@ -162,12 +162,10 @@ window.onload = function() {
 	} else {
 		//로그인 상태
 %>
-				<form action="logout_ok.jsp" method="post" name="lfrm">
 					<b>아이디</b> : <%=(String)session.getAttribute("s_id") %>
 					/
 					<b>등급</b> : <%=(String)session.getAttribute("s_grade") %>
 					<input type="button" id="lbtn" value="로그아웃" class="btn_write btn_txt01" style="cursor: pointer;" />
-				</form>
 <%	
 	}
 %>
