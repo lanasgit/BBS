@@ -48,7 +48,7 @@
 		
 		conn = dataSource.getConnection();
 		
-		String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap, filename from board1 order by seq desc";
+		String sql = "select seq, subject, writer, date_format(wdate, '%Y-%m-%d') wdate, hit, datediff(now(), wdate) wgap, filename, grpl from board1 order by grp desc, grps asc";
 		pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
 		rs = pstmt.executeQuery();
@@ -70,11 +70,19 @@
 			String hit = rs.getString("hit");
 			int wgap = rs.getInt("wgap");
 			String filename = rs.getString("filename");
+			int grpl = rs.getInt("grpl");
+			String sgrpl = "";
+			for (int j = 1; j <= grpl; j++) {
+				sgrpl += "&nbsp;&nbsp;";
+			}
 			
 			strHtml.append("<tr>");
 			strHtml.append("<td>&nbsp;</td>");
 			strHtml.append("<td>" + seq + "</td>");
 			strHtml.append("<td class='left'>");
+			if (grpl!=0) {
+	            strHtml.append(sgrpl +"<img src = '../../images/re.gif' width='9' />");    
+	        }
 			strHtml.append("<a href='board_view1.jsp?cpage="+ cpage +"&seq="+ seq +"'>"+ subject +"</a>");
 			if (wgap == 0) strHtml.append("&nbsp;<img src='../../images/icon_hot.gif' alt='HOT'>");
 			strHtml.append("</td>");

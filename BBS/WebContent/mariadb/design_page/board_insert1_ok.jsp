@@ -29,7 +29,7 @@
 		pstmt.executeUpdate();
 		pstmt.close();
 				
-		sql = "insert into board1 values (0, ?, ?, ?, ?, ?, 0, ?, now(), ?, ?, ?)";
+		sql = "insert into board1 values (0, ?, ?, ?, ?, ?, 0, ?, now(), ?, ?, ?, last_insert_id()+1, 0, 0)";
 		pstmt = conn.prepareStatement(sql);
 		
 		for (int i = 1; i <= 101; i++) {
